@@ -16,23 +16,23 @@ public class ProdutoController {
     @Autowired
     ProdutoRepository produtoRepo;
 
-    @GetMapping
+    @GetMapping(value = "produto")
     public List<Produto> getProdutos() {
         return produtoRepo.findAll();
     }
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "produto/{id}")
     public Optional<Produto> getProdutos(@PathVariable int id) {
         return produtoRepo.findById(id);
     }
 
-    @PostMapping
+    @PostMapping(value = "produto/cadastrar")
     public ResponseEntity<?> addProduto(@RequestBody Produto produto) {
         Produto prod = new Produto(produto.getNome(), produto.getPreco(), produto.getQuantidade());
         produtoRepo.save(prod);
         return ResponseEntity.ok("Produto adicionado com sucesso");
     }
 
-    @PutMapping("{/id}")
+    @PutMapping("produto/{id}")
     public ResponseEntity<?> updateQuantidade(@PathVariable int id,@RequestBody Produto produto) {
         Optional<Produto> ProdutoExiste = produtoRepo.findById(id);
 
@@ -40,19 +40,19 @@ public class ProdutoController {
             Produto  prod = ProdutoExiste.get();
             prod.setQuantidade(produto.getQuantidade());
             produtoRepo.save(prod);
-            return ResponseEntity.ok("Produto atualizado com sucesso" + ProdutoExiste.toString());
+            return ResponseEntity.ok("Produto atualizado com sucesso" + " " + ProdutoExiste.toString());
         } else  {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @DeleteMapping("{/id}")
+    @DeleteMapping("produto/{id}")
     public ResponseEntity<?> deleteProduto(@PathVariable int id) {
-        if(produtoRepo.findById(id).isPresent()) {
+        if(produtoRepo.existsById(id)) {
             produtoRepo.deleteById(id);
             return ResponseEntity.ok("Produto removido com sucesso");
         } else   {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok("Produto não encontrado, ou já deletado");
         }
     }
 }
