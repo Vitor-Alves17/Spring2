@@ -1,7 +1,9 @@
 package com.list.todolist2.controller;
 
+import com.list.todolist2.dto.ProdutoRequestDTO;
 import com.list.todolist2.entities.Produto;
 import com.list.todolist2.repository.ProdutoRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping
 @CrossOrigin(origins = "*")
 public class ProdutoController {
 
@@ -26,7 +29,7 @@ public class ProdutoController {
     }
 
     @PostMapping(value = "produto/cadastrar")
-    public ResponseEntity<?> addProduto(@RequestBody Produto produto) {
+    public ResponseEntity<?> addProduto(@Valid @RequestBody ProdutoRequestDTO produto) {
         Produto prod = new Produto(produto.getNome(), produto.getPreco(), produto.getQuantidade());
         produtoRepo.save(prod);
         return ResponseEntity.ok("Produto adicionado com sucesso");

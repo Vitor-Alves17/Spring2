@@ -1,7 +1,9 @@
 package com.list.todolist2.controller;
 
+import com.list.todolist2.dto.UserRequestDTO;
 import com.list.todolist2.entities.User;
 import com.list.todolist2.repository.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +18,7 @@ public class UserController {
     UserRepository userRepository;
 
     @PostMapping(value = "usuario/cadastro")
-    public ResponseEntity<?> save(@RequestBody User user) {
+    public ResponseEntity<?> save(@Valid @RequestBody UserRequestDTO user) {
         User u = new User(user.getUsername(), user.getEmail(), user.getPassword());
         userRepository.save(u);
         return ResponseEntity.ok("Salvo com sucesso!");
