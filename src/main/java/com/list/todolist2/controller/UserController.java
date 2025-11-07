@@ -10,8 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -42,13 +46,12 @@ public class UserController {
     public List<UserResponseDTO> mostrarTudo(){
         System.out.println("Users mostrados com sucesso");
         List<User> users = userRepository.findAll();
-        List<UserResponseDTO> userResponseDTOS = new ArrayList<>();
-
+        List<UserResponseDTO> userResponseDTO = new ArrayList<>();
 
         for (User user : users) {
-            userResponseDTOS.add(new UserResponseDTO(user));
+            userResponseDTO.add(new UserResponseDTO(user));
         }
-        return userResponseDTOS;
+        return userResponseDTO;
     }
     @GetMapping(value = "{id}")
     public Optional<User> buscarPorId(@PathVariable int id){

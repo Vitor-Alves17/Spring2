@@ -1,6 +1,7 @@
 package com.list.todolist2.controller;
 
 import com.list.todolist2.dto.ProdutoRequestDTO;
+import com.list.todolist2.dto.ProdutoResponseDTO;
 import com.list.todolist2.entities.Produto;
 import com.list.todolist2.repository.ProdutoRepository;
 import jakarta.validation.Valid;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +22,13 @@ public class ProdutoController {
     ProdutoRepository produtoRepo;
 
     @GetMapping(value = "produto")
-    public List<Produto> getProdutos() {
-        return produtoRepo.findAll();
+    public List<ProdutoResponseDTO> getProdutos() {
+        List<Produto> produtos = produtoRepo.findAll();
+        List<ProdutoResponseDTO> produtosResponseDTO = new ArrayList<>();
+        for (Produto produto : produtos) {
+            produtosResponseDTO.add(new ProdutoResponseDTO(produto));
+        }
+        return produtosResponseDTO;
     }
     @GetMapping(value = "produto/{id}")
     public Optional<Produto> getProdutos(@PathVariable int id) {
