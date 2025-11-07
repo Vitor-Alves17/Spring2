@@ -30,4 +30,14 @@ public class ProdutoResponseDTO {
     public double getSubValor() {
         return subValor;
     }
+
+    @Override
+    public String toString() {
+        return "Produto: " +
+                "nome='" + nome + '\'' +
+                ", preco=" + preco +
+                ", quantidade=" + quantidade +
+                ", subValor=" + subValor +
+                '}';
+    }
 }

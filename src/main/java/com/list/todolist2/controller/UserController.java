@@ -30,7 +30,7 @@ public class UserController {
         return ResponseEntity.ok("Salvo com sucesso!");
     }
     @PostMapping(value = "user/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
+    public ResponseEntity<?> login(@RequestBody UserRequestDTO user) {
         User findUser = userRepository.findByEmail(user.getEmail());
         if (findUser == null) {
             return ResponseEntity.ok("Usuario não encontrado!");
@@ -46,11 +46,11 @@ public class UserController {
     public List<UserResponseDTO> mostrarTudo(){
         System.out.println("Users mostrados com sucesso");
         List<User> users = userRepository.findAll();
-        List<UserResponseDTO> userResponseDTO = new ArrayList<>();
+        List<UserResponseDTO> userResponseDTO = users.stream().map(UserResponseDTO::new).collect(toList());
 
-        for (User user : users) {
-            userResponseDTO.add(new UserResponseDTO(user));
-        }
+//        for (User user : users) {
+//            userResponseDTO.add(new UserResponseDTO(user));
+//        }
         return userResponseDTO;
     }
     @GetMapping(value = "{id}")
@@ -72,7 +72,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarPorId(@PathVariable int id, @RequestBody User user) {
+    public ResponseEntity<?> atualizarPorId(@PathVariable int id, @RequestBody UserRequestDTO user) {
         Optional<User> UserExisty = userRepository.findById(id);
 
         if (UserExisty.isPresent()) {

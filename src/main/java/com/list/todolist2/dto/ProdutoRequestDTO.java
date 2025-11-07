@@ -1,21 +1,22 @@
 package com.list.todolist2.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import com.list.todolist2.entities.Produto;
+import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Size;
 
 public class ProdutoRequestDTO {
     @NotBlank(message = "Coloca o nome ai Lyly")
     private String nome;
-    @NotBlank(message = "Coloca o nome ai Lyly")
+    @DecimalMin(value = "0.01", inclusive = true)
     private double preco = 0;
-    @NotBlank(message = "Coloca o nome ai Lyly")
     private int quantidade = 0;
 
     public ProdutoRequestDTO() {
     }
-    public ProdutoRequestDTO(String nome, double preco, int quantidade) {
-        this.nome = nome;
-        this.preco = preco;
-        this.quantidade = quantidade;
+    public ProdutoRequestDTO(Produto produto) {
+        this.nome = produto.getNome();
+        this.preco = produto.getPreco();
+        this.quantidade = produto.getQuantidade();
     }
 
 

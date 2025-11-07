@@ -26,4 +26,13 @@ public class UserResponseDTO {
     public String getEmail() {
         return email;
     }
+
+    @Override
+    public String toString() {
+        return "UserResponseDTO{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

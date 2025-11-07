@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping
@@ -31,8 +32,10 @@ public class ProdutoController {
         return produtosResponseDTO;
     }
     @GetMapping(value = "produto/{id}")
-    public Optional<Produto> getProdutos(@PathVariable int id) {
-        return produtoRepo.findById(id);
+    public Optional<ProdutoResponseDTO> getProdutos(@PathVariable int id) {
+        Optional<Produto> produtos = produtoRepo.findById(id);
+        Optional<ProdutoResponseDTO> produtosResponseDTO = produtos.map(ProdutoResponseDTO::new);
+        return produtosResponseDTO;
     }
 
     @PostMapping(value = "produto/cadastrar")
@@ -43,14 +46,15 @@ public class ProdutoController {
     }
 
     @PutMapping("produto/{id}")
-    public ResponseEntity<?> updateQuantidade(@PathVariable int id,@RequestBody Produto produto) {
+    public ResponseEntity<?> updateQuantidade(@PathVariable int id,@RequestBody ProdutoRequestDTO produto) {
         Optional<Produto> ProdutoExiste = produtoRepo.findById(id);
+        Optional<ProdutoResponseDTO> ProdutoDTO = ProdutoExiste.map(ProdutoResponseDTO::new);
 
         if(ProdutoExiste.isPresent()) {
             Produto  prod = ProdutoExiste.get();
             prod.setQuantidade(produto.getQuantidade());
             produtoRepo.save(prod);
-            return ResponseEntity.ok("Produto atualizado com sucesso" + " " + ProdutoExiste.toString());
+            return ResponseEntity.ok("Produto atualizado com sucesso" + " " + ProdutoDTO.toString());
         } else  {
             return ResponseEntity.notFound().build();
         }
