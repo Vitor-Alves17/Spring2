@@ -1,6 +1,7 @@
 package com.list.todolist2.controller;
 
 import com.list.todolist2.dto.UserRequestDTO;
+import com.list.todolist2.dto.UserResponseDTO;
 import com.list.todolist2.entities.User;
 import com.list.todolist2.repository.UserRepository;
 import jakarta.validation.Valid;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,11 +39,16 @@ public class UserController {
         }
     }
     @GetMapping
-    public List<User> mostrarTudo(){
+    public List<UserResponseDTO> mostrarTudo(){
         System.out.println("Users mostrados com sucesso");
         List<User> users = userRepository.findAll();
-        users.forEach(System.out::println);
-        return users;
+        List<UserResponseDTO> userResponseDTOS = new ArrayList<>();
+
+
+        for (User user : users) {
+            userResponseDTOS.add(new UserResponseDTO(user));
+        }
+        return userResponseDTOS;
     }
     @GetMapping(value = "{id}")
     public Optional<User> buscarPorId(@PathVariable int id){
