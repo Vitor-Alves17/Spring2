@@ -5,19 +5,15 @@ import com.list.todolist2.entities.User;
 
 public class UserResponseDTO {
 
-    private int id;
     private String username;
     private String email;
 
     public UserResponseDTO(User user) {
-        this.id = user.getId();
         this.username = user.getUsername();
         this.email = user.getEmail();
     }
 
-    public int getId() {
-        return id;
-    }
+
 
     public String getUsername() {
         return username;
@@ -30,7 +26,6 @@ public class UserResponseDTO {
     @Override
     public String toString() {
         return "UserResponseDTO{" +
-                "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 '}';
